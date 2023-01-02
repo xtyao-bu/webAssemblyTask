@@ -1,0 +1,41 @@
+<!-- @author: Xiteng Yao
+@date: 2023-01-01
+@brief: This is a simple example of using WebAssembly to add two numbers. -->
+
+<script src="adder.js"></script>
+
+<script>
+    //@brief: This function handles the click event of the button. It calls the WebAssembly function to add two numbers.
+    //        The returned value is printed in the console.
+
+    async function pressBtn() {
+        var first = 100;
+        var second = 10;
+
+        if (document.getElementById("firstInt").value == "" && document.getElementById("secondInt").value == "") {
+            console.log("Please enter two numbers, using default values 100 and 10");
+        }else{
+            first = parseInt(document.getElementById("first").value);
+            second = parseInt(document.getElementById("second").value);
+        }
+
+        console.log("Adding " + first + " and " + second + ". The result is: ");
+        await WebAssembly.instantiateStreaming(fetch("adder.wasm"), {console}).then(obj => {
+            console.log("Returned value: " + obj.instance.exports.add(first, second)); // 110
+        });
+    }
+
+</script>
+
+<p>Please enter two integers</p>
+<div class="integers">
+    <label for="first">The first integer</label>
+    <input type="number" name="first" id="firstInt">
+    <p>Adds</p>
+    <label for="second">The second integer</label>
+    <input type="number" name="second" id="secondInt">
+    
+</div>
+
+<button onclick="pressBtn()">Click to add numbers</button>
+<p>Please open the console to see the results</p>
