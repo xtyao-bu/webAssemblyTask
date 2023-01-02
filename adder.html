@@ -15,13 +15,13 @@
         if (document.getElementById("firstInt").value == "" && document.getElementById("secondInt").value == "") {
             console.log("Please enter two numbers, using default values 100 and 10");
         }else{
-            first = parseInt(document.getElementById("first").value);
-            second = parseInt(document.getElementById("second").value);
+            first = parseInt(document.getElementById("firstInt").value);
+            second = parseInt(document.getElementById("secondInt").value);
         }
 
         console.log("Adding " + first + " and " + second + ". The result is: ");
         await WebAssembly.instantiateStreaming(fetch("adder.wasm"), {console}).then(obj => {
-            console.log("Returned value: " + obj.instance.exports.add(first, second)); // 110
+            console.log("Returned value: " + obj.instance.exports.add(first, second));
         });
     }
 
